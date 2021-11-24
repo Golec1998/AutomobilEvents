@@ -13,7 +13,20 @@ class EventsRecyclerAdapter : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHol
     var events = mutableSetOf<EventsData>(
         EventsData("Japfest", "2022-07-29  -  2022-07-31", R.drawable.japfest),
         EventsData("Ultrace", "2022-08-19  -  2022-06-21", R.drawable.ultrace),
-        EventsData("Osaka", "2022-06-24  -  2022-06-26", R.drawable.osaka)
+        EventsData("Osaka", "2022-06-24  -  2022-06-26", R.drawable.osaka),
+        EventsData("Japfest22", "2022-07-29  -  2022-07-31", R.drawable.japfest),
+        EventsData("Ultrace22", "2022-08-19  -  2022-06-21", R.drawable.ultrace),
+        EventsData("Osaka22", "2022-06-24  -  2022-06-26", R.drawable.osaka),
+        EventsData("Japfest23", "2022-07-29  -  2022-07-31", R.drawable.japfest),
+        EventsData("Ultrace23", "2022-08-19  -  2022-06-21", R.drawable.ultrace),
+        EventsData("Osaka23", "2022-06-24  -  2022-06-26", R.drawable.osaka)
+    )
+
+    var favouriteEvents = mutableSetOf<EventsData>(
+        EventsData("Japfest", "2022-07-29  -  2022-07-31", R.drawable.japfest),
+        EventsData("Japfest22", "2022-07-29  -  2022-07-31", R.drawable.japfest),
+        EventsData("Osaka22", "2022-06-24  -  2022-06-26", R.drawable.osaka),
+        EventsData("Ultrace23", "2022-08-19  -  2022-06-21", R.drawable.ultrace)
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsRecyclerAdapter.ViewHolder {
@@ -25,6 +38,9 @@ class EventsRecyclerAdapter : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHol
         holder.itemTitle.text = events.elementAt(position).eventName
         holder.itemDate.text = events.elementAt(position).eventDate
         holder.itemImage.setImageResource(events.elementAt(position).eventCoverImage)
+
+        if(events.elementAt(position) in favouriteEvents)
+            holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_24)
     }
 
     override fun getItemCount(): Int {
@@ -35,11 +51,13 @@ class EventsRecyclerAdapter : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHol
         var itemImage : ShapeableImageView
         var itemTitle : TextView
         var itemDate : TextView
+        var itemFavourite : ImageView
 
         init {
             itemImage = itemView.findViewById(R.id.eventsListItemImage)
             itemTitle = itemView.findViewById(R.id.eventsListItemHeader)
             itemDate = itemView.findViewById(R.id.eventsListItemDate)
+            itemFavourite = itemView.findViewById(R.id.eventsListItemFavourite)
         }
     }
 }
