@@ -5,29 +5,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatDrawableManager.get
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
+import com.squareup.picasso.Picasso
+import model.EventsData
+import org.json.JSONArray
+import org.json.JSONTokener
+import java.net.URL
 
-class EventsRecyclerAdapter : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHolder>() {
+class EventsRecyclerAdapter(var events : MutableSet<EventsData>) : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHolder>() {
 
-    var events = mutableSetOf<EventsData>(
-        EventsData("Japfest", "2022-07-29  -  2022-07-31", R.drawable.japfest),
-        EventsData("Ultrace", "2022-08-19  -  2022-06-21", R.drawable.ultrace),
-        EventsData("Osaka", "2022-06-24  -  2022-06-26", R.drawable.osaka),
-        EventsData("Japfest22", "2022-07-29  -  2022-07-31", R.drawable.japfest),
-        EventsData("Ultrace22", "2022-08-19  -  2022-06-21", R.drawable.ultrace),
-        EventsData("Osaka22", "2022-06-24  -  2022-06-26", R.drawable.osaka),
-        EventsData("Japfest23", "2022-07-29  -  2022-07-31", R.drawable.japfest),
-        EventsData("Ultrace23", "2022-08-19  -  2022-06-21", R.drawable.ultrace),
-        EventsData("Osaka23", "2022-06-24  -  2022-06-26", R.drawable.osaka)
-    )
+    val picasso = Picasso.get()
 
-    var favouriteEvents = mutableSetOf<EventsData>(
-        EventsData("Japfest", "2022-07-29  -  2022-07-31", R.drawable.japfest),
-        EventsData("Japfest22", "2022-07-29  -  2022-07-31", R.drawable.japfest),
-        EventsData("Osaka22", "2022-06-24  -  2022-06-26", R.drawable.osaka),
-        EventsData("Ultrace23", "2022-08-19  -  2022-06-21", R.drawable.ultrace)
-    )
+    var favouriteEvents = listOf<String>("1", "4")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsRecyclerAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.events_list_item, parent, false)
@@ -35,12 +26,25 @@ class EventsRecyclerAdapter : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHol
     }
 
     override fun onBindViewHolder(holder: EventsRecyclerAdapter.ViewHolder, position: Int) {
-        holder.itemTitle.text = events.elementAt(position).eventName
-        holder.itemDate.text = events.elementAt(position).eventDate
-        holder.itemImage.setImageResource(events.elementAt(position).eventCoverImage)
+        if (events.elementAt(position).name != "") {
+            holder.itemTitle.text = events.elementAt(position).name
+            holder.itemDate.text =
+                events.elementAt(position).start_date + " - " + events.elementAt(position).end_date
 
-        if(events.elementAt(position) in favouriteEvents)
-            holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_24)
+            picasso.load(
+                "https://beckertrans.pl/automobilevents_api/images/" + events.elementAt(
+                    position
+                ).image + ".jpg"
+            ).into(holder.itemImage)
+            //holder.itemImage.setImageResource(R.drawable.class.getField(events.elementAt(position).eventCoverImage))
+
+            if (events.elementAt(position).id in favouriteEvents)
+                holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_24)
+        }
+        else {
+            holder.itemView.visibility = View.GONE
+            holder.itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
+        }
     }
 
     override fun getItemCount(): Int {
