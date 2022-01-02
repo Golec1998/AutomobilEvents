@@ -26,25 +26,21 @@ class EventsRecyclerAdapter(var events : MutableSet<EventsData>) : RecyclerView.
     }
 
     override fun onBindViewHolder(holder: EventsRecyclerAdapter.ViewHolder, position: Int) {
-        if (events.elementAt(position).name != "") {
-            holder.itemTitle.text = events.elementAt(position).name
-            holder.itemDate.text =
-                events.elementAt(position).start_date + " - " + events.elementAt(position).end_date
+        holder.itemTitle.text = events.elementAt(position).name
+        holder.itemDate.text =
+            events.elementAt(position).start_date + " - " + events.elementAt(position).end_date
 
-            picasso.load(
-                "https://beckertrans.pl/automobilevents_api/images/" + events.elementAt(
-                    position
-                ).image + ".jpg"
-            ).into(holder.itemImage)
-            //holder.itemImage.setImageResource(R.drawable.class.getField(events.elementAt(position).eventCoverImage))
+        picasso
+            .load("https://beckertrans.pl/automobilevents_api/images/" + events.elementAt(position).image + ".jpg")
+            .into(holder.itemImage)
+        //holder.itemImage.setImageResource(R.drawable.class.getField(events.elementAt(position).eventCoverImage))
 
-            if (events.elementAt(position).id in favouriteEvents)
-                holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_24)
-        }
-        else {
-            holder.itemView.visibility = View.GONE
-            holder.itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
-        }
+        if (events.elementAt(position).id in favouriteEvents)
+            holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_24)
+    }
+
+    fun update() {
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

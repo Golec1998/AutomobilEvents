@@ -16,9 +16,6 @@ class MainActivity : AppCompatActivity() {
     private val notificationsFragment = NotificationsFragment()
     private val moreFragment = MoreFragment()
 
-    //var eventsLayoutManager : RecyclerView.LayoutManager? = null
-    //var adapter : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHolder>? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,15 +31,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_more -> replaceFragment(moreFragment)
             }
             true }
-
-        //val eventsRecyclerView = findViewById<RecyclerView>(R.id.eventsList)
-        //eventsLayoutManager = LinearLayoutManager(this)
-
-        // Ponizej sie wywala i nie mam pojecia dlaczego
-
-        //eventsRecyclerView.layoutManager = eventsLayoutManager
-        //adapter = EventsRecyclerAdapter()
-        //eventsRecyclerView.adapter = adapter
     }
 
     private fun replaceFragment(fragment : Fragment) {

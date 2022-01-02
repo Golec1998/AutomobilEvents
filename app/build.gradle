@@ -39,7 +39,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    // Biblioteka picasso
+    // biblioteka picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     // coroutines
@@ -48,6 +48,9 @@ dependencies {
 
     // lifecyclescope
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
+
+    // odświeżanie
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

@@ -5,13 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".EventsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/eventsList"
-        android:layout_height="match_parent"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/events_list_item" />
+        android:layout_height="match_parent"
+        android:id="@+id/events_swipe_to_refresh">
 
-    <!-- Dla testu widoku dopoki nie dziala -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/eventsList"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/events_list_item" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </FrameLayout>
