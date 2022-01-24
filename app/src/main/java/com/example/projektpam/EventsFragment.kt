@@ -15,10 +15,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.projektpam.viewModel.EventsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import model.EventsData
@@ -29,7 +32,7 @@ import java.net.URL
 
 class EventsFragment : Fragment() {
 
-    var adapter : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHolder>? = null
+    private lateinit var eventsViewModel : EventsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,14 +40,21 @@ class EventsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_events, container, false)
 
+        eventsViewModel = ViewModelProvider(this).get(EventsViewModel::class.java)
+
         val eventsRecyclerView = view.findViewById<RecyclerView>(R.id.eventsList)
         eventsRecyclerView.layoutManager = LinearLayoutManager(activity)
         val eventsSwipe = view.findViewById<SwipeRefreshLayout>(R.id.events_swipe_to_refresh)
 
         var events : MutableSet<EventsData> = mutableSetOf()
-        adapter = EventsRecyclerAdapter(events)
+        val adapter = EventsRecyclerAdapter(eventsViewModel)
         eventsRecyclerView.adapter = adapter
-        getEvents(events, eventsRecyclerView)
+
+        eventsViewModel.events.observe(viewLifecycleOwner, { events ->
+            adapter.setData(events)
+        })
+
+        eventsViewModel.getEvents(isNetworkAvailable())
         refreshEvents(eventsSwipe, events, eventsRecyclerView)
 
         return view
@@ -54,62 +64,21 @@ class EventsFragment : Fragment() {
         fun newInstance() {}
     }
 
-    fun removeEmptyEvents(events: MutableSet<EventsData>) {
-        events.removeAll { true }
-    }
-
     private fun refreshEvents(eventsSwipe : SwipeRefreshLayout, events : MutableSet<EventsData>, eventsRecyclerView : RecyclerView) {
         eventsSwipe.isEnabled = true
         eventsSwipe.setOnRefreshListener {
-            getEvents(events, eventsRecyclerView)
+            if(!eventsViewModel.getEvents(isNetworkAvailable()))
+                Toast.makeText(context, "Nie można odświeżyć", Toast.LENGTH_SHORT).show()
             eventsSwipe.isRefreshing = false
         }
     }
 
-    private fun getEvents(events : MutableSet<EventsData>, eventsRecyclerView : RecyclerView) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            var json = ""
-            val isConnected : Boolean = isNetworkAvailable()
-            if (isConnected)
-                try {
-                    json = URL("https://beckertrans.pl/automobilevents_api/api/event/read.php").readText()
-                } catch (e : Exception) {}
-
-            if (json != "") {
-                val jsonArray = JSONTokener(json).nextValue() as JSONArray
-                    removeEmptyEvents(events)
-                    var i = 0
-                    while (i < jsonArray.length()) {
-                        val id = jsonArray.getJSONObject(i).getString("id")
-                        val name = jsonArray.getJSONObject(i).getString("name")
-                        val description = jsonArray.getJSONObject(i).getString("description")
-                        val image = jsonArray.getJSONObject(i).getString("image")
-                        val startDate = jsonArray.getJSONObject(i).getString("start_date")
-                        val endDate = jsonArray.getJSONObject(i).getString("end_date")
-
-                        events.add(EventsData(description, endDate, id, image, name, startDate))
-                        i++
-                }
-                if(activity != null) {
-                    requireActivity().runOnUiThread {
-                        eventsRecyclerView.adapter?.notifyDataSetChanged()
-                    }
-                }
-            }
-            else
-                if(activity != null) {
-                    requireActivity().runOnUiThread {
-                        Toast.makeText(context, "Nie można odświeżyć", Toast.LENGTH_SHORT).show()
-                    }
-                }
-        }
-    }
-
     private fun isNetworkAvailable() : Boolean {
-        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE)
+        val connectivityManager = context?.getSystemService(CONNECTIVITY_SERVICE)
         return if (connectivityManager is ConnectivityManager) {
             val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
             networkInfo?.isConnected ?: false
         } else false
     }
 }
+
