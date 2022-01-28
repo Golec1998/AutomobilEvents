@@ -7,11 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.projektpam.model.repository.EventsRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import model.EventsData
-import kotlinx.coroutines.launch
 
 class EventsViewModel(application : Application) : AndroidViewModel(application) {
 
@@ -20,17 +17,16 @@ class EventsViewModel(application : Application) : AndroidViewModel(application)
     private val repository : EventsRepository = EventsRepository()
 
     fun getEvents(con : Boolean) : Boolean {
-        viewModelScope.launch(Dispatchers.IO) {
-            tempEvents =  repository.getEvents(con)
+        runBlocking {
+            val pending = viewModelScope.launch(Dispatchers.IO) {
+                tempEvents = repository.getEvents(con)
+            }
+
+            pending.join()
+            events.value = tempEvents
         }
 
-        if(tempEvents == ArrayList<EventsData>())
-            return false
-        else {
-            //HERE wymusić przypisywanie wartości dopiero jak sie załaduje
-            events.value = tempEvents
-            return true
-        }
+        return tempEvents != ArrayList<EventsData>()
     }
 
 }
