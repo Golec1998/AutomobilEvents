@@ -21,7 +21,7 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
 
     val picasso = Picasso.get()
     private var events = emptyList<EventsData>()
-    var favouriteEvents = listOf<String>("1", "4")
+    var favouriteEvents = mutableListOf<String>("1", "4")
 
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         var itemImage : ShapeableImageView
@@ -51,8 +51,14 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
             .load("https://beckertrans.pl/automobilevents_api/images/" + events.elementAt(position).image + ".jpg")
             .into(holder.itemImage)
 
+        holder.itemFavourite.setOnClickListener {
+            updateFav(events.elementAt(position).id)
+        }
+
         if (events.elementAt(position).id in favouriteEvents)
             holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_24)
+        else
+            holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
     }
 
     override fun getItemCount(): Int {
@@ -61,5 +67,13 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
 
     fun setData(eventList : List<EventsData>) {
         this.events = eventList
+    }
+
+    fun updateFav(id : String) {
+        if (id in favouriteEvents)
+            favouriteEvents.removeAt(favouriteEvents.indexOf(id))
+        else
+            favouriteEvents.add(id)
+        notifyDataSetChanged()
     }
 }
