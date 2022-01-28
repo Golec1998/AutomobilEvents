@@ -61,6 +61,5 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
 
     fun setData(eventList : List<EventsData>) {
         this.events = eventList
-        notifyDataSetChanged()
     }
 }
