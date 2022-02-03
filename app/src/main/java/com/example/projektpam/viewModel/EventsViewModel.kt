@@ -20,7 +20,7 @@ class EventsViewModel(application : Application) : AndroidViewModel(application)
 
     var favouriteEvents = mutableListOf<String>()
 
-    fun getEvents(con : Boolean) : Boolean {
+    fun getEvents(con : Boolean) {
         runBlocking {
             val pending = viewModelScope.launch(Dispatchers.IO) {
                 tempEvents = repository.getEvents(con)
@@ -29,8 +29,6 @@ class EventsViewModel(application : Application) : AndroidViewModel(application)
             pending.join()
             events.value = tempEvents
         }
-
-        return tempEvents != ArrayList<EventsData>()
     }
 
     fun updateFavEvents(eventId : String) {

@@ -42,8 +42,8 @@ class EventsFragment : Fragment() {
             adapter.setData(events)
         })
 
-        eventsViewModel.getEvents(isNetworkAvailable())
-        refreshEvents(eventsSwipe, events, eventsRecyclerView)
+        refreshEvents()
+        swipeRefreshEvents(eventsSwipe, eventsRecyclerView)
 
         return view
     }
@@ -52,11 +52,18 @@ class EventsFragment : Fragment() {
         fun newInstance() {}
     }
 
-    private fun refreshEvents(eventsSwipe : SwipeRefreshLayout, events : MutableSet<EventsData>, eventsRecyclerView : RecyclerView) {
+    private fun refreshEvents() {
+        val con = isNetworkAvailable()
+        if(con)
+            eventsViewModel.getEvents(con)
+        else
+            Toast.makeText(context, "Brak połączenia", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun swipeRefreshEvents(eventsSwipe : SwipeRefreshLayout, eventsRecyclerView : RecyclerView) {
         eventsSwipe.isEnabled = true
         eventsSwipe.setOnRefreshListener {
-            if(!eventsViewModel.getEvents(isNetworkAvailable()))
-                Toast.makeText(context, "Nie można odświeżyć", Toast.LENGTH_SHORT).show()
+            refreshEvents()
             eventsSwipe.isRefreshing = false
         }
     }
