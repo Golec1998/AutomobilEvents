@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.projektpam.EventsRecyclerAdapter
+import com.example.projektpam.fragments.adapters.EventsRecyclerAdapter
 import com.example.projektpam.R
 import com.example.projektpam.viewModel.EventsViewModel
 import model.EventsData

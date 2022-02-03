@@ -1,4 +1,4 @@
-package com.example.projektpam
+package com.example.projektpam.fragments.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
+import com.example.projektpam.R
 import com.example.projektpam.viewModel.EventsViewModel
 import com.google.android.material.imageview.ShapeableImageView
 import com.squareup.picasso.Picasso
@@ -32,12 +32,12 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventsRecyclerAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.events_list_item, parent, false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: EventsRecyclerAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemTitle.text = events.elementAt(position).name
         holder.itemDate.text =
             events.elementAt(position).start_date + " - " + events.elementAt(position).end_date
