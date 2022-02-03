@@ -1,4 +1,4 @@
-package com.example.projektpam.fragments
+package com.example.projektpam.fragments.events
 
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager

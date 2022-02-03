@@ -6,11 +6,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projektpam.R
+import com.example.projektpam.fragments.events.EventsFragment
+import com.example.projektpam.fragments.events.EventsFragmentDirections
+import com.example.projektpam.fragments.events.EventsViewFragment
 import com.example.projektpam.viewModel.EventsViewModel
 import com.google.android.material.imageview.ShapeableImageView
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.events_list_item.view.*
 import model.EventsData
 
 class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHolder>() {
@@ -38,20 +43,21 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemTitle.text = events.elementAt(position).name
-        holder.itemDate.text =
-            events.elementAt(position).start_date + " - " + events.elementAt(position).end_date
+        val currentEvent = events.elementAt(position)
+        holder.itemTitle.text = currentEvent.name
+        holder.itemDate.text = currentEvent.start_date + " - " + currentEvent.end_date
 
         picasso
-            .load("https://beckertrans.pl/automobilevents_api/images/" + events.elementAt(position).image + ".jpg")
+            .load("https://beckertrans.pl/automobilevents_api/images/" + currentEvent.image + ".jpg")
             .into(holder.itemImage)
 
         holder.itemFavourite.setOnClickListener {
-            updateFav(events.elementAt(position).id)
+            updateFav(currentEvent.id)
         }
 
-        holder.itemView.setOnClickListener {
-            Toast.makeText(holder.itemView.context, "Wybrano ${events.elementAt(position).name}", Toast.LENGTH_SHORT).show()
+        holder.itemView.eventsListItem.setOnClickListener {
+            val action = EventsFragmentDirections.actionEventsFragmentToEventFragment(currentEvent)
+            holder.itemView.findNavController().navigate(action)
         }
 
         if (events.elementAt(position).id in eventsViewModel.favouriteEvents)
