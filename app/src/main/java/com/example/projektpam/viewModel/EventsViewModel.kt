@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.projektpam.model.appDatabase
 import com.example.projektpam.model.repository.EventsRepository
 import kotlinx.coroutines.*
 import model.EventsData
@@ -16,7 +17,8 @@ class EventsViewModel(application : Application) : AndroidViewModel(application)
 
     private var tempEvents = ArrayList<EventsData>()
     var events = MutableLiveData<List<EventsData>>()
-    private val repository : EventsRepository = EventsRepository()
+    private val eventsDAO = appDatabase.getDatabase(application).eventsDAO()
+    private val repository : EventsRepository = EventsRepository(eventsDAO)
 
     var favouriteEvents = mutableListOf<String>()
 

@@ -54,9 +54,8 @@ class EventsFragment : Fragment() {
 
     private fun refreshEvents() {
         val con = isNetworkAvailable()
-        if(con)
-            eventsViewModel.getEvents(con)
-        else
+        eventsViewModel.getEvents(con)
+        if(!con)
             Toast.makeText(context, "Brak połączenia", Toast.LENGTH_SHORT).show()
     }
 
