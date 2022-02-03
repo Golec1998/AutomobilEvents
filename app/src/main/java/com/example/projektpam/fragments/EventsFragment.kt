@@ -1,34 +1,22 @@
-package com.example.projektpam
+package com.example.projektpam.fragments
 
-import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
-import android.util.Log.d
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.projektpam.EventsRecyclerAdapter
+import com.example.projektpam.R
 import com.example.projektpam.viewModel.EventsViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import model.EventsData
-import org.json.JSONArray
-import org.json.JSONTokener
-import java.net.HttpURLConnection
-import java.net.URL
 
 class EventsFragment : Fragment() {
 

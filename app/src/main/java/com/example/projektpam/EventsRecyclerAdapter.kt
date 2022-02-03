@@ -6,22 +6,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatDrawableManager.get
-import androidx.lifecycle.MutableLiveData
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projektpam.viewModel.EventsViewModel
 import com.google.android.material.imageview.ShapeableImageView
 import com.squareup.picasso.Picasso
 import model.EventsData
-import org.json.JSONArray
-import org.json.JSONTokener
-import java.net.URL
 
 class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHolder>() {
 
     val picasso = Picasso.get()
     private var events = emptyList<EventsData>()
-    var favouriteEvents = mutableListOf<String>("1", "4")
 
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         var itemImage : ShapeableImageView
@@ -55,7 +50,11 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
             updateFav(events.elementAt(position).id)
         }
 
-        if (events.elementAt(position).id in favouriteEvents)
+        holder.itemView.setOnClickListener {
+            Toast.makeText(holder.itemView.context, "Wybrano ${events.elementAt(position).name}", Toast.LENGTH_SHORT).show()
+        }
+
+        if (events.elementAt(position).id in eventsViewModel.favouriteEvents)
             holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_24)
         else
             holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
@@ -70,10 +69,7 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
     }
 
     fun updateFav(id : String) {
-        if (id in favouriteEvents)
-            favouriteEvents.removeAt(favouriteEvents.indexOf(id))
-        else
-            favouriteEvents.add(id)
+        eventsViewModel.updateFavEvents(id)
         notifyDataSetChanged()
     }
 }

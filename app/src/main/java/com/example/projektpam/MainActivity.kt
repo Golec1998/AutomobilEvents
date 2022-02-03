@@ -3,6 +3,10 @@ package com.example.projektpam
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.projektpam.fragments.EventsFragment
+import com.example.projektpam.fragments.FavouritesFragment
+import com.example.projektpam.fragments.MoreFragment
+import com.example.projektpam.fragments.NotificationsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {

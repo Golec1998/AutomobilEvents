@@ -2,6 +2,8 @@ package com.example.projektpam.viewModel
 
 import android.app.Application
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +18,8 @@ class EventsViewModel(application : Application) : AndroidViewModel(application)
     var events = MutableLiveData<List<EventsData>>()
     private val repository : EventsRepository = EventsRepository()
 
+    var favouriteEvents = mutableListOf<String>()
+
     fun getEvents(con : Boolean) : Boolean {
         runBlocking {
             val pending = viewModelScope.launch(Dispatchers.IO) {
@@ -27,6 +31,13 @@ class EventsViewModel(application : Application) : AndroidViewModel(application)
         }
 
         return tempEvents != ArrayList<EventsData>()
+    }
+
+    fun updateFavEvents(eventId : String) {
+        if (eventId in favouriteEvents)
+            favouriteEvents.removeAt(favouriteEvents.indexOf(eventId))
+        else
+            favouriteEvents.add(eventId)
     }
 
 }

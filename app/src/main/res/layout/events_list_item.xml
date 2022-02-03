@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:text="Event X"
         android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/eventsListItemImage"
@@ -30,8 +31,8 @@
 
     <ImageView
         android:id="@+id/eventsListItemFavourite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="15dp"
