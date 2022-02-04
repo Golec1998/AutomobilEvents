@@ -22,5 +22,8 @@
         <action
             android:id="@+id/action_favouriteFragment_to_favouritesFragment"
             app:destination="@id/favouritesFragment" />
+        <argument
+            android:name="currentEvent"
+            app:argType="model.EventsData" />
     </fragment>
 </navigation>

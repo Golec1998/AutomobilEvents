@@ -55,7 +55,7 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel, priva
         }
 
         holder.itemView.eventsListItem.setOnClickListener {
-            val action = if (fe == "e") { EventsFragmentDirections.actionEventsFragmentToEventFragment(currentEvent) } else { FavouritesFragmentDirections.actionFavouritesFragmentToFavouriteFragment() }
+            val action = if (fe == "e") { EventsFragmentDirections.actionEventsFragmentToEventFragment(currentEvent) } else { FavouritesFragmentDirections.actionFavouritesFragmentToFavouriteFragment(currentEvent) }
             holder.itemView.findNavController().navigate(action)
         }
 
