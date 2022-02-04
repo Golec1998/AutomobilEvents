@@ -57,7 +57,7 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
             holder.itemView.findNavController().navigate(action)
         }
 
-        if (events.elementAt(position).id in eventsViewModel.favouriteEvents)
+        if (events.elementAt(position).id.toInt() in eventsViewModel.favouriteEvents)
             holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_24)
         else
             holder.itemFavourite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
