@@ -3,7 +3,6 @@ package com.example.projektpam
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.example.projektpam.fragments.events.EventsFragment
 import com.example.projektpam.fragments.events.EventsViewFragment
 import com.example.projektpam.fragments.favourites.FavouritesFragment
 import com.example.projektpam.fragments.more.MoreFragment

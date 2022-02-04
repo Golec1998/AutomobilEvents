@@ -5,13 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projektpam.R
-import com.example.projektpam.fragments.events.EventsFragment
 import com.example.projektpam.fragments.events.EventsFragmentDirections
-import com.example.projektpam.fragments.events.EventsViewFragment
 import com.example.projektpam.viewModel.EventsViewModel
 import com.google.android.material.imageview.ShapeableImageView
 import com.squareup.picasso.Picasso

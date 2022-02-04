@@ -1,11 +1,7 @@
 package com.example.projektpam.viewModel
 
 import android.app.Application
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.projektpam.model.appDatabase
