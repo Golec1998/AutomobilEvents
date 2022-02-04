@@ -5,10 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".fragments.favourites.FavouritesFragment">
 
-    <TextView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Obserwowane"
-        android:textSize="40dp" />
+        android:id="@+id/favourites_swipe_to_refresh">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favouritesList"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/events_list_item" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </FrameLayout>

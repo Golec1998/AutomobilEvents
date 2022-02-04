@@ -9,13 +9,15 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projektpam.R
 import com.example.projektpam.fragments.events.EventsFragmentDirections
+import com.example.projektpam.fragments.favourites.FavouriteFragmentDirections
+import com.example.projektpam.fragments.favourites.FavouritesFragmentDirections
 import com.example.projektpam.viewModel.EventsViewModel
 import com.google.android.material.imageview.ShapeableImageView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.events_list_item.view.*
 import model.EventsData
 
-class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHolder>() {
+class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel, private val fe : String) : RecyclerView.Adapter<EventsRecyclerAdapter.ViewHolder>() {
 
     val picasso = Picasso.get()
     private var events = emptyList<EventsData>()
@@ -53,7 +55,7 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
         }
 
         holder.itemView.eventsListItem.setOnClickListener {
-            val action = EventsFragmentDirections.actionEventsFragmentToEventFragment(currentEvent)
+            val action = if (fe == "e") { EventsFragmentDirections.actionEventsFragmentToEventFragment(currentEvent) } else { FavouritesFragmentDirections.actionFavouritesFragmentToFavouriteFragment() }
             holder.itemView.findNavController().navigate(action)
         }
 
@@ -69,10 +71,12 @@ class EventsRecyclerAdapter(private val eventsViewModel : EventsViewModel) : Rec
 
     fun setData(eventList : List<EventsData>) {
         this.events = eventList
+        updateFav("x")
     }
 
     fun updateFav(id : String) {
         eventsViewModel.updateFavEvents(id)
         notifyDataSetChanged()
     }
+
 }

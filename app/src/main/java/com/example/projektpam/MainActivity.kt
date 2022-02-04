@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.projektpam.fragments.events.EventsViewFragment
-import com.example.projektpam.fragments.favourites.FavouritesFragment
+import com.example.projektpam.fragments.favourites.FavouritesViewFragment
 import com.example.projektpam.fragments.more.MoreFragment
 import com.example.projektpam.fragments.notifications.NotificationsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     private val eventsViewFragment = EventsViewFragment()
-    private val favouritesFragmentFragment = FavouritesFragment()
+    private val favouritesViewFragment = FavouritesViewFragment()
     private val notificationsFragment = NotificationsFragment()
     private val moreFragment = MoreFragment()
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.nav_events -> replaceFragment(eventsViewFragment)
-                R.id.nav_favourites -> replaceFragment(favouritesFragmentFragment)
+                R.id.nav_favourites -> replaceFragment(favouritesViewFragment)
                 R.id.nav_notifications -> replaceFragment(notificationsFragment)
                 R.id.nav_more -> replaceFragment(moreFragment)
             }

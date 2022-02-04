@@ -34,22 +34,15 @@ class EventsFragment : Fragment() {
         eventsRecyclerView.layoutManager = LinearLayoutManager(activity)
         val eventsSwipe = view.findViewById<SwipeRefreshLayout>(R.id.events_swipe_to_refresh)
 
-        var events : MutableSet<EventsData> = mutableSetOf()
-        val adapter = EventsRecyclerAdapter(eventsViewModel)
+        val adapter = EventsRecyclerAdapter(eventsViewModel, "e")
         eventsRecyclerView.adapter = adapter
 
-        eventsViewModel.events.observe(viewLifecycleOwner, { events ->
-            adapter.setData(events)
-        })
+        eventsViewModel.events.observe(viewLifecycleOwner, { events -> adapter.setData(events) })
 
         refreshEvents()
-        swipeRefreshEvents(eventsSwipe, eventsRecyclerView)
+        swipeRefreshEvents(eventsSwipe)
 
         return view
-    }
-
-    companion object {
-        fun newInstance() {}
     }
 
     private fun refreshEvents() {
@@ -59,7 +52,7 @@ class EventsFragment : Fragment() {
             Toast.makeText(context, "Brak połączenia", Toast.LENGTH_SHORT).show()
     }
 
-    private fun swipeRefreshEvents(eventsSwipe : SwipeRefreshLayout, eventsRecyclerView : RecyclerView) {
+    private fun swipeRefreshEvents(eventsSwipe : SwipeRefreshLayout) {
         eventsSwipe.isEnabled = true
         eventsSwipe.setOnRefreshListener {
             refreshEvents()
@@ -74,5 +67,10 @@ class EventsFragment : Fragment() {
             networkInfo?.isConnected ?: false
         } else false
     }
+
+    companion object {
+        fun newInstance() {}
+    }
+
 }
 

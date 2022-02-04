@@ -12,21 +12,30 @@ import model.EventsData
 
 class EventsViewModel(application : Application) : AndroidViewModel(application) {
 
-    private var tempEvents = ArrayList<EventsData>()
     var events = MutableLiveData<List<EventsData>>()
+    var favEvents = MutableLiveData<List<EventsData>>()
     private val eventsDAO = AppDatabase.getDatabase(application).eventsDAO()
     private val favEventsDAO = AppDatabase.getDatabase(application).favEventsDAO()
     private val repository : EventsRepository = EventsRepository(eventsDAO, favEventsDAO)
     var favouriteEvents = mutableListOf<Int>()
 
     fun getEvents(con : Boolean) {
+        var tempEvents = ArrayList<EventsData>()
+        var tempFavEvents = ArrayList<EventsData>()
+
         runBlocking {
             val pending = viewModelScope.launch(Dispatchers.IO) {
                 tempEvents = repository.getEvents(con)
+                favouriteEvents = repository.updateFavEvents("x")
+                for(i in tempEvents)
+                    if (i.id.toInt() in favouriteEvents)
+                        tempFavEvents.add(i)
             }
-
             pending.join()
+
             events.value = tempEvents
+            favEvents.value = tempFavEvents
+
             updateFavEvents("x")
         }
     }
