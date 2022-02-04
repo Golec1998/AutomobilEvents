@@ -1,12 +1,14 @@
 package com.example.projektpam.fragments.events
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.projektpam.R
@@ -16,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_event.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+
 
 class EventFragment : Fragment() {
 
@@ -35,6 +38,7 @@ class EventFragment : Fragment() {
             updateFavouriteIcon(view, args.currentEvent.id)
         }
         view.backToEventsButton.setOnClickListener { findNavController().navigate(R.id.action_eventFragment_to_eventsFragment) }
+        view.eventLocationButton.setOnClickListener { showLocation() }
         view.eventName.text = args.currentEvent.name
         view.eventDescription.text = args.currentEvent.description
         picasso
@@ -59,6 +63,15 @@ class EventFragment : Fragment() {
             else
                 view.eventItemFavourite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
         }
+    }
+
+    private fun showLocation()
+    {
+        val loc : String = "geo:" + args.currentEvent.coordinates
+        val gmmIntentUri = Uri.parse(loc)
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        startActivity(mapIntent)
     }
 
 }

@@ -1,5 +1,7 @@
 package com.example.projektpam.fragments.favourites
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,6 +37,7 @@ class FavouriteFragment : Fragment() {
             updateFavouriteIcon(view, args.currentEvent.id)
         }
         view.backToFavouritesButton.setOnClickListener { findNavController().navigate(R.id.action_favouriteFragment_to_favouritesFragment) }
+        view.favouriteEventLocationButton.setOnClickListener { showLocation() }
         view.favouriteEventName.text = args.currentEvent.name
         view.favouriteEventDescription.text = args.currentEvent.description
         picasso
@@ -59,6 +62,15 @@ class FavouriteFragment : Fragment() {
             else
                 view.favouriteEventItemFavourite.setImageResource(R.drawable.ic_baseline_favorite_border_24)
         }
+    }
+
+    private fun showLocation()
+    {
+        val loc : String = "geo:" + args.currentEvent.coordinates
+        val gmmIntentUri = Uri.parse(loc)
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        startActivity(mapIntent)
     }
 
 }
