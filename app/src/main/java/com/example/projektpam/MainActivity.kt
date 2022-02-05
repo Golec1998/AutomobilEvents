@@ -15,20 +15,21 @@ class MainActivity : AppCompatActivity() {
     private val favouritesViewFragment = FavouritesViewFragment()
     private val notificationsFragment = NotificationsFragment()
     private val moreFragment = MoreFragment()
+    private var mainViewSelected : Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        replaceFragment(eventsViewFragment)
-
         val bottomNav : BottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        replaceFragment(eventsViewFragment)
         bottomNav.setOnNavigationItemSelectedListener {
             when(it.itemId) {
-                R.id.nav_events -> replaceFragment(eventsViewFragment)
-                R.id.nav_favourites -> replaceFragment(favouritesViewFragment)
-                R.id.nav_notifications -> replaceFragment(notificationsFragment)
-                R.id.nav_more -> replaceFragment(moreFragment)
+                R.id.nav_events -> { replaceFragment(eventsViewFragment); mainViewSelected = true }
+                R.id.nav_favourites -> { replaceFragment(favouritesViewFragment); mainViewSelected = false }
+                R.id.nav_notifications -> { replaceFragment(notificationsFragment); mainViewSelected = false }
+                R.id.nav_more -> { replaceFragment(moreFragment); mainViewSelected = false }
             }
             true }
     }
@@ -39,4 +40,5 @@ class MainActivity : AppCompatActivity() {
             transaction.replace(R.id.fragment_container, fragment).commit()
         }
     }
+
 }
