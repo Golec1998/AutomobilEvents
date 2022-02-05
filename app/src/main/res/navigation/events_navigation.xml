@@ -25,5 +25,20 @@
         <argument
             android:name="currentEvent"
             app:argType="model.EventsData" />
+        <action
+            android:id="@+id/action_eventFragment_to_eventNotificationFragment"
+            app:destination="@id/eventNotificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventNotificationFragment"
+        android:name="com.example.projektpam.fragments.events.EventNotificationFragment"
+        android:label="fragment_event_notification"
+        tools:layout="@layout/fragment_event_notification" >
+        <action
+            android:id="@+id/action_eventNotificationFragment_to_eventFragment"
+            app:destination="@id/eventFragment" />
+        <argument
+            android:name="currentEvent"
+            app:argType="model.EventsData" />
     </fragment>
 </navigation>

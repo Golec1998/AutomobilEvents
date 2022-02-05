@@ -79,6 +79,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/favouriteEventDescription" />
 
+        <Button
+            android:id="@+id/favouriteEventNotificationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ustaw przypomnienie"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/favouriteEventLocationButton" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

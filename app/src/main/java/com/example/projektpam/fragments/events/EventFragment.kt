@@ -10,12 +10,15 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.projektpam.R
+import com.example.projektpam.fragments.favourites.FavouritesFragmentDirections
 import com.example.projektpam.viewModel.EventsViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_event.view.*
+import kotlinx.android.synthetic.main.fragment_favourite.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -44,11 +47,10 @@ class EventFragment : Fragment() {
 
         eventsViewModel = ViewModelProvider(this).get(EventsViewModel::class.java)
 
-        view.eventItemFavourite.setOnClickListener {
-            updateFavouriteIcon(view, args.currentEvent.id)
-        }
+        view.eventItemFavourite.setOnClickListener { updateFavouriteIcon(view, args.currentEvent.id) }
         view.backToEventsButton.setOnClickListener { findNavController().navigate(R.id.action_eventFragment_to_eventsFragment) }
         view.eventLocationButton.setOnClickListener { showLocation() }
+        view.eventNotificationButton.setOnClickListener { setNotification(view) }
         view.eventName.text = args.currentEvent.name
         view.eventDescription.text = args.currentEvent.description
         picasso
@@ -82,6 +84,11 @@ class EventFragment : Fragment() {
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         startActivity(mapIntent)
+    }
+
+    private fun setNotification(view : View) {
+        val action = EventFragmentDirections.actionEventFragmentToEventNotificationFragment(args.currentEvent)
+        view.findNavController().navigate(action)
     }
 
 }
