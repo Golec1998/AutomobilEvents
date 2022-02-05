@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.events.EventNotificationFragment">
+    tools:context=".fragments.favourites.FavouriteNotificationFragment" >
 
     <TextView
-        android:id="@+id/eventNotificationName"
+        android:id="@+id/favouriteNotificationName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -16,11 +16,11 @@
         android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/backToEventButton"
+        app:layout_constraintStart_toEndOf="@+id/backToFavouriteButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/eventNotificationDate"
+        android:id="@+id/favouriteNotificationDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -28,11 +28,11 @@
         android:text="dd-mm-rrrr - dd-mm-rrrr"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/backToEventButton"
-        app:layout_constraintTop_toBottomOf="@+id/eventNotificationName" />
+        app:layout_constraintStart_toEndOf="@+id/backToFavouriteButton"
+        app:layout_constraintTop_toBottomOf="@+id/favouriteNotificationName" />
 
     <DatePicker
-        android:id="@+id/eventNotificationDatePicker"
+        android:id="@+id/favouriteNotificationDatePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -41,31 +41,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventNotificationDate" />
+        app:layout_constraintTop_toBottomOf="@+id/favouriteNotificationDate" />
 
     <TimePicker
-        android:id="@+id/eventNotificationTimePicker"
+        android:id="@+id/favouriteNotificationTimePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventNotificationDatePicker" />
+        app:layout_constraintTop_toBottomOf="@+id/favouriteNotificationDatePicker" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/setEventNotificationButton"
+        android:id="@+id/setFavouriteNotificationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_check_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventNotificationTimePicker"
+        app:layout_constraintTop_toBottomOf="@+id/favouriteNotificationTimePicker"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/backToEventButton"
+        android:id="@+id/backToFavouriteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"

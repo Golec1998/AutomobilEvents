@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.projektpam.R
+import com.example.projektpam.fragments.events.EventFragmentDirections
 import com.example.projektpam.viewModel.EventsViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_event.view.*
@@ -47,7 +49,7 @@ class FavouriteFragment : Fragment() {
         view.favouriteEventItemFavourite.setOnClickListener { updateFavouriteIcon(view, args.currentEvent.id) }
         view.backToFavouritesButton.setOnClickListener { findNavController().navigate(R.id.action_favouriteFragment_to_favouritesFragment) }
         view.favouriteEventLocationButton.setOnClickListener { showLocation() }
-        view.favouriteEventNotificationButton.setOnClickListener { setNotification() }
+        view.favouriteEventNotificationButton.setOnClickListener { setNotification(view) }
         view.favouriteEventName.text = args.currentEvent.name
         view.favouriteEventDescription.text = args.currentEvent.description
         picasso
@@ -83,8 +85,9 @@ class FavouriteFragment : Fragment() {
         startActivity(mapIntent)
     }
 
-    private fun setNotification() {
-        Toast.makeText(context, "Opcja chwilowo niedostępna", Toast.LENGTH_SHORT).show()
+    private fun setNotification(view : View) {
+        val action = FavouriteFragmentDirections.actionFavouriteFragmentToFavouriteNotificationFragment(args.currentEvent)
+        view.findNavController().navigate(action)
     }
 
 }

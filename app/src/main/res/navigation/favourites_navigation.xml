@@ -25,5 +25,20 @@
         <argument
             android:name="currentEvent"
             app:argType="model.EventsData" />
+        <action
+            android:id="@+id/action_favouriteFragment_to_favouriteNotificationFragment"
+            app:destination="@id/favouriteNotificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteNotificationFragment"
+        android:name="com.example.projektpam.fragments.favourites.FavouriteNotificationFragment"
+        android:label="fragment_favourite_notification"
+        tools:layout="@layout/fragment_favourite_notification" >
+        <action
+            android:id="@+id/action_favouriteNotificationFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
+        <argument
+            android:name="currentEvent"
+            app:argType="model.EventsData" />
     </fragment>
 </navigation>

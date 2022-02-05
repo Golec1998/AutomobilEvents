@@ -1,13 +1,11 @@
-package com.example.projektpam.fragments.events
+package com.example.projektpam.fragments.favourites
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,27 +13,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.projektpam.R
+import com.example.projektpam.fragments.events.EventNotificationFragmentArgs
+import com.example.projektpam.fragments.events.EventNotificationFragmentDirections
 import com.example.projektpam.model.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_event_notification.view.*
+import kotlinx.android.synthetic.main.fragment_favourite_notification.view.*
 import model.EventsData
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class EventNotificationFragment : Fragment() {
+class FavouriteNotificationFragment : Fragment() {
 
-    private val args by navArgs<EventNotificationFragmentArgs>()
+    private val args by navArgs<FavouriteNotificationFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                backToEvent(view)
+                backToFavourite(view)
             }
         })
     }
@@ -44,30 +43,30 @@ class EventNotificationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_event_notification, container, false)
+        val view = inflater.inflate(R.layout.fragment_favourite_notification, container, false)
 
-        view.eventNotificationName.text = args.currentEvent.name
-        view.eventNotificationDate.text = args.currentEvent.start_date + " - " + args.currentEvent.end_date
-        view.eventNotificationTimePicker.setIs24HourView(true)
-        view.eventNotificationTimePicker.currentHour = 9
-        view.eventNotificationTimePicker.currentMinute = 0
-        view.eventNotificationDatePicker.init(
+        view.favouriteNotificationName.text = args.currentEvent.name
+        view.favouriteNotificationDate.text = args.currentEvent.start_date + " - " + args.currentEvent.end_date
+        view.favouriteNotificationTimePicker.setIs24HourView(true)
+        view.favouriteNotificationTimePicker.currentHour = 9
+        view.favouriteNotificationTimePicker.currentMinute = 0
+        view.favouriteNotificationDatePicker.init(
             LocalDate.parse(args.currentEvent.start_date, DateTimeFormatter.ISO_DATE).year,
             LocalDate.parse(args.currentEvent.start_date, DateTimeFormatter.ISO_DATE).monthValue - 1,
             LocalDate.parse(args.currentEvent.start_date, DateTimeFormatter.ISO_DATE).dayOfMonth,
             null
         )
 
-        view.backToEventButton.setOnClickListener { backToEvent(view) }
-        view.setEventNotificationButton.setOnClickListener { setNotification(view) }
+        view.backToFavouriteButton.setOnClickListener { backToFavourite(view) }
+        view.setFavouriteNotificationButton.setOnClickListener { setNotification(view) }
 
         createNotificationChannel()
 
         return view
     }
 
-    private fun backToEvent(view: View, event : EventsData = args.currentEvent) {
-        val action = EventNotificationFragmentDirections.actionEventNotificationFragmentToEventFragment(event)
+    private fun backToFavourite(view: View, event : EventsData = args.currentEvent) {
+        val action = FavouriteNotificationFragmentDirections.actionFavouriteNotificationFragmentToFavouriteFragment(event)
         view.findNavController().navigate(action)
     }
 
@@ -77,14 +76,14 @@ class EventNotificationFragment : Fragment() {
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(channelID, name, importance)
         channel.description = description
-        val notificationManager = context?.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
     }
 
     private fun setNotification(view : View) {
         val intent = Intent(context, Notification::class.java)
-        val title = view.eventNotificationName.text
-        val message = "Twoje powiadomienie o evencie " + view.eventNotificationName.text
+        val title = view.favouriteNotificationName.text
+        val message = "Twoje powiadomienie o evencie " + view.favouriteNotificationName.text
         intent.putExtra(titleExtra, title)
         intent.putExtra(messageExtra, message)
 
@@ -104,16 +103,16 @@ class EventNotificationFragment : Fragment() {
         )
 
         Toast.makeText(context, "Zapisano powiadomienie", Toast.LENGTH_SHORT).show()
-        backToEvent(view)
+        backToFavourite(view)
     }
 
     private fun getTime(view : View) : Long {
-        val minute = view.eventNotificationTimePicker.minute
-        val hour = view.eventNotificationTimePicker.hour
+        val minute = view.favouriteNotificationTimePicker.minute
+        val hour = view.favouriteNotificationTimePicker.hour
 
-        val day = view.eventNotificationDatePicker.dayOfMonth
-        val month = view.eventNotificationDatePicker.month
-        val year = view.eventNotificationDatePicker.year
+        val day = view.favouriteNotificationDatePicker.dayOfMonth
+        val month = view.favouriteNotificationDatePicker.month
+        val year = view.favouriteNotificationDatePicker.year
 
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day, hour, minute, 0)
