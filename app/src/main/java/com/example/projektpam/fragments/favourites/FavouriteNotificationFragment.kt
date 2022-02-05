@@ -16,10 +16,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.projektpam.R
-import com.example.projektpam.fragments.events.EventNotificationFragmentArgs
-import com.example.projektpam.fragments.events.EventNotificationFragmentDirections
 import com.example.projektpam.model.*
-import kotlinx.android.synthetic.main.fragment_event_notification.view.*
 import kotlinx.android.synthetic.main.fragment_favourite_notification.view.*
 import model.EventsData
 import java.time.LocalDate
@@ -84,26 +81,31 @@ class FavouriteNotificationFragment : Fragment() {
         val intent = Intent(context, Notification::class.java)
         val title = view.favouriteNotificationName.text
         val message = "Twoje powiadomienie o evencie " + view.favouriteNotificationName.text
-        intent.putExtra(titleExtra, title)
-        intent.putExtra(messageExtra, message)
-
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            notificationID,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val time = getTime(view)
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            time,
-            pendingIntent
-        )
 
-        Toast.makeText(context, "Zapisano powiadomienie", Toast.LENGTH_SHORT).show()
-        backToFavourite(view)
+        if(time > 0) {
+            intent.putExtra(titleExtra, title)
+            intent.putExtra(messageExtra, message)
+
+            val pendingIntent = PendingIntent.getBroadcast(
+                context,
+                (0..2147483647).random(),
+                intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+
+            val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                time,
+                pendingIntent
+            )
+
+            Toast.makeText(context, "Zapisano powiadomienie", Toast.LENGTH_SHORT).show()
+            backToFavourite(view)
+        }
+        else
+            Toast.makeText(context, "Zła data", Toast.LENGTH_SHORT).show()
     }
 
     private fun getTime(view : View) : Long {
@@ -116,8 +118,23 @@ class FavouriteNotificationFragment : Fragment() {
 
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day, hour, minute, 0)
+        val endDate = LocalDate.parse(args.currentEvent.end_date, DateTimeFormatter.ISO_DATE)
+        val endCalendar = Calendar.getInstance()
+        endCalendar.set(
+            endDate.year,
+            endDate.monthValue,
+            endDate.dayOfMonth,
+            23, 59, 59
+        )
 
-        return calendar.timeInMillis
+        return if (checkTime(calendar, endCalendar))
+            calendar.timeInMillis
+        else
+            -1
+    }
+
+    private fun checkTime(calendar : Calendar, endCalendar : Calendar) : Boolean {
+        return !(calendar.before(Calendar.getInstance()) || calendar.after(endCalendar))
     }
 
 }

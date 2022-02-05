@@ -22,6 +22,9 @@ import kotlinx.android.synthetic.main.fragment_favourite.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class FavouriteFragment : Fragment() {
 
@@ -86,8 +89,21 @@ class FavouriteFragment : Fragment() {
     }
 
     private fun setNotification(view : View) {
-        val action = FavouriteFragmentDirections.actionFavouriteFragmentToFavouriteNotificationFragment(args.currentEvent)
-        view.findNavController().navigate(action)
+        val endDate = LocalDate.parse(args.currentEvent.end_date, DateTimeFormatter.ISO_DATE)
+        val endCalendar = Calendar.getInstance()
+        endCalendar.set(
+            endDate.year,
+            endDate.monthValue,
+            endDate.dayOfMonth,
+            23, 59, 59
+        )
+
+        if (Calendar.getInstance().before(endCalendar)) {
+            val action = FavouriteFragmentDirections.actionFavouriteFragmentToFavouriteNotificationFragment(args.currentEvent)
+            view.findNavController().navigate(action)
+        }
+        else
+            Toast.makeText(context, "Wydarzenie juz się odbyło", Toast.LENGTH_SHORT).show()
     }
 
 }
