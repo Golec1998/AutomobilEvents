@@ -19,6 +19,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Thread.sleep(1500)
+        setTheme(R.style.Theme_ProjektPAM)
+
         setContentView(R.layout.activity_main)
 
         val bottomNav : BottomNavigationView = findViewById(R.id.bottom_navigation)

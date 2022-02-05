@@ -17,4 +17,8 @@
         <item name="cornerSize">20dp</item>
         <item name="backgroundColor">#00000000</item>
     </style>
+
+    <style name="splashScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_image</item>
+    </style>
 </resources>
