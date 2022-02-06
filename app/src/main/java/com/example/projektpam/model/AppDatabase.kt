@@ -6,14 +6,17 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.projektpam.model.dao.EventsDAO
 import com.example.projektpam.model.dao.FavEventsDAO
+import com.example.projektpam.model.dao.NotificationsDAO
 import com.example.projektpam.model.entities.FavEventsData
+import com.example.projektpam.model.entities.NotificationsData
 import model.EventsJSON
 
-@Database(entities = [EventsJSON::class, FavEventsData::class], version = 2, exportSchema = false)
+@Database(entities = [EventsJSON::class, FavEventsData::class, NotificationsData::class], version = 3, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun eventsDAO() : EventsDAO
     abstract fun favEventsDAO() : FavEventsDAO
+    abstract fun notificationsDAO() : NotificationsDAO
 
     companion object {
         @Volatile

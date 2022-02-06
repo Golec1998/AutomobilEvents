@@ -1,14 +1,20 @@
 package com.example.projektpam.viewModel
 
 import android.app.Application
+import android.app.Notification
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.projektpam.model.AppDatabase
 import com.example.projektpam.model.entities.FavEventsData
+import com.example.projektpam.model.entities.NotificationsData
 import com.example.projektpam.model.repository.EventsRepository
 import kotlinx.coroutines.*
 import model.EventsData
+import java.util.*
+import kotlin.collections.ArrayList
 
 class EventsViewModel(application : Application) : AndroidViewModel(application) {
 
@@ -16,8 +22,10 @@ class EventsViewModel(application : Application) : AndroidViewModel(application)
     var favEvents = MutableLiveData<List<EventsData>>()
     private val eventsDAO = AppDatabase.getDatabase(application).eventsDAO()
     private val favEventsDAO = AppDatabase.getDatabase(application).favEventsDAO()
-    private val repository : EventsRepository = EventsRepository(eventsDAO, favEventsDAO)
+    private val notificationsDAO = AppDatabase.getDatabase(application).notificationsDAO()
+    private val repository : EventsRepository = EventsRepository(eventsDAO, favEventsDAO, notificationsDAO)
     var favouriteEvents = mutableListOf<Int>()
+    val notifications = repository.notifications
 
     fun getEvents(con : Boolean) {
         var tempEvents = ArrayList<EventsData>()
@@ -43,6 +51,18 @@ class EventsViewModel(application : Application) : AndroidViewModel(application)
     fun updateFavEvents(eventId : String) {
         viewModelScope.launch(Dispatchers.IO) {
             favouriteEvents = repository.updateFavEvents(eventId)
+        }
+    }
+
+    fun insertNotification(notification : NotificationsData) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertNotification(notification)
+        }
+    }
+
+    fun deleteNotification(id : Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteNotification(id)
         }
     }
 

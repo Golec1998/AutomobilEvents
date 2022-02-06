@@ -13,10 +13,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.projektpam.R
 import com.example.projektpam.model.*
+import com.example.projektpam.model.entities.NotificationsData
+import com.example.projektpam.viewModel.EventsViewModel
+import kotlinx.android.synthetic.main.fragment_event_notification.view.*
 import kotlinx.android.synthetic.main.fragment_favourite_notification.view.*
 import model.EventsData
 import java.time.LocalDate
@@ -26,6 +30,7 @@ import java.util.*
 class FavouriteNotificationFragment : Fragment() {
 
     private val args by navArgs<FavouriteNotificationFragmentArgs>()
+    private lateinit var eventsViewModel : EventsViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,6 +46,8 @@ class FavouriteNotificationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_favourite_notification, container, false)
+
+        eventsViewModel = ViewModelProvider(this).get(EventsViewModel::class.java)
 
         view.favouriteNotificationName.text = args.currentEvent.name
         view.favouriteNotificationDate.text = args.currentEvent.start_date + " - " + args.currentEvent.end_date
@@ -69,8 +76,8 @@ class FavouriteNotificationFragment : Fragment() {
 
     private fun createNotificationChannel() {
         val name = "Event notification"
-        val description = "A description of channel"
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
+        val description = "Notification about base event"
+        val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel(channelID, name, importance)
         channel.description = description
         val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -79,8 +86,9 @@ class FavouriteNotificationFragment : Fragment() {
 
     private fun setNotification(view : View) {
         val intent = Intent(context, Notification::class.java)
-        val title = view.favouriteNotificationName.text
-        val message = "Twoje powiadomienie o evencie " + view.favouriteNotificationName.text
+        val notId : Int = (0..2147483647).random()
+        val title = view.favouriteNotificationName.text.toString()
+        val message = "Twoje powiadomienie o " + view.favouriteNotificationName.text
         val time = getTime(view)
 
         if(time > 0) {
@@ -89,7 +97,7 @@ class FavouriteNotificationFragment : Fragment() {
 
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                (0..2147483647).random(),
+                notId,
                 intent,
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
@@ -102,6 +110,18 @@ class FavouriteNotificationFragment : Fragment() {
             )
 
             Toast.makeText(context, "Zapisano powiadomienie", Toast.LENGTH_SHORT).show()
+            var notificationTime = view.favouriteNotificationDatePicker.year.toString() + "-"
+            if (view.favouriteNotificationDatePicker.month < 9)
+                notificationTime += "0"
+            notificationTime += (view.favouriteNotificationDatePicker.month + 1).toString() + "-"
+            if (view.favouriteNotificationDatePicker.dayOfMonth < 10)
+                notificationTime += "0"
+            notificationTime += view.favouriteNotificationDatePicker.dayOfMonth.toString() + "   " + view.favouriteNotificationTimePicker.hour.toString() + ":"
+            if (view.favouriteNotificationTimePicker.minute < 10)
+                notificationTime += "0"
+            notificationTime += view.favouriteNotificationTimePicker.minute.toString()
+
+            eventsViewModel.insertNotification(NotificationsData(notId, message, notificationTime))
             backToFavourite(view)
         }
         else

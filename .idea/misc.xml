@@ -16,6 +16,7 @@
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23541666666666666" />
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/drawable/ic_ae_splash.xml" value="0.2605" />
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.3205" />
+        <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.29" />
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/drawable/ic_baseline_notifications_none_24.xml" value="0.3205" />
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/drawable/ic_launcher_background.xml" value="0.23541666666666666" />
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2915" />
@@ -33,6 +34,7 @@
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/layout/fragment_favourites_view.xml" value="0.2869791666666667" />
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/layout/fragment_more.xml" value="0.21927083333333333" />
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/layout/fragment_notifications.xml" value="0.21927083333333333" />
+        <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/layout/notifications_list_item.xml" value="0.2859375" />
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/menu/bottom_navigation.xml" value="0.3875" />
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.23541666666666666" />
         <entry key="..\:/Studia/5 semestr/Programowanie Aplikacji Mobilnych/ProjektPAM/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.23541666666666666" />
