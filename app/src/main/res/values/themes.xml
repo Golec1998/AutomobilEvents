@@ -20,5 +20,7 @@
 
     <style name="splashScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_image</item>
+
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
     </style>
 </resources>
